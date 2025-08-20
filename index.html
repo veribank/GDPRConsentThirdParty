@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>GDPR Consent Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background: #f7f9fa;
+        }
+
+        .container {
+            background: #fff;
+            margin: 32px auto;
+            padding: 32px;
+            max-width: 700px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px #0001;
+        }
+
+        h2 {
+            margin-top: 0;
+        }
+
+        .section-title {
+            font-weight: bold;
+            margin-top: 24px;
+        }
+
+        .consent-options {
+            margin: 24px 0;
+        }
+
+            .consent-options label {
+                display: block;
+                margin-bottom: 12px;
+            }
+
+        .actions {
+            text-align: right;
+            margin-top: 24px;
+        }
+
+        .btn {
+            background: #ffd600;
+            color: #333;
+            border: none;
+            padding: 12px 32px;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+            .btn:disabled {
+                background: #eee;
+                color: #aaa;
+                cursor: not-allowed;
+            }
+
+        .checkbox {
+            margin-right: 8px;
+        }
+
+        .note {
+            font-size: 13px;
+            color: #666;
+            margin-top: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Data Privacy Consent (GDPR Compliant)</h2>
+        <p>
+            We value your privacy and are committed to protecting your personal data in accordance with the General Data Protection Regulation (GDPR).<br>
+            Please read the following and provide your consent to proceed.
+        </p>
+
+        <div class="section-title">What Data We Collect</div>
+        <ul>
+            <li>Identity information (Name, surname, national ID number, etc.)</li>
+            <li>Contact details (Phone number, email address, mailing address)</li>
+            <li>Financial data (account details, transaction history, income level, credit usage)</li>
+            <li>Location data (for mobile usage)</li>
+            <li>Device and behavioral data (IP address, cookies, mobile usage behavior)</li>
+        </ul>
+
+        <div class="section-title">Why We Collect Your Data</div>
+        <ul>
+            <li>To provide banking services through mobile and other channels</li>
+            <li>To fulfill legal and regulatory obligations</li>
+            <li>To manage customer relations and ensure security</li>
+            <li>To conduct marketing and campaign communication (only if consent is given)</li>
+            <li>To enhance service experience through analytics and personalization</li>
+        </ul>
+
+        <div class="section-title">Who May Access Your Data</div>
+        <ul>
+            <li>Relevant government authorities and regulatory bodies</li>
+            <li>Our domestic and international affiliates and service providers</li>
+            <li>IT, audit, and legal consultants assisting our operations</li>
+        </ul>
+
+        <div class="section-title">Your Rights Under GDPR</div>
+        <ul>
+            <li>Access, correct, or delete your personal data</li>
+            <li>Restrict or object to the processing of your data</li>
+            <li>Request data portability</li>
+            <li>Withdraw your consent at any time without affecting the lawfulness of prior processing</li>
+        </ul>
+
+        <div class="section-title">Consent Options</div>
+        <div class="consent-options">
+            <label>
+                <input type="checkbox" id="consent_personal" class="checkbox" onchange="onConsentChange()">
+                I consent to the processing of my personal data as described above. <b>(Optional)</b>
+            </label>
+            <label>
+                <input type="checkbox" id="consent_marketing" class="checkbox">
+                I consent to receive marketing, campaign, and promotional content via SMS/email. <span class="note">(Optional)</span>
+            </label>
+            <label>
+                <input type="checkbox" id="consent_thirdparty" class="checkbox">
+                I consent to the transfer of my personal data to servers or affiliates located outside the EEA. <span class="note">(Required)</span>
+            </label>
+        </div>
+        <label>
+            <input type="checkbox" id="consent_agree" class="checkbox" onchange="onConsentChange()">
+            I agree
+        </label>
+        <div class="actions">
+            <button id="btnContinue" class="btn" disabled onclick="submitConsent()">CONTINUE</button>
+        </div>
+    </div>
+    <script>
+        function onConsentChange() {
+            // Enable CONTINUE only if required consents are checked
+            var required = document.getElementById('consent_thirdparty').checked;
+            var agree = document.getElementById('consent_agree').checked;
+            document.getElementById('btnContinue').disabled = !(required && agree);
+        }
+
+        function submitConsent() {
+    var consentPersonal = document.getElementById('consent_personal').checked;
+    var consentMarketing = document.getElementById('consent_marketing').checked;
+    var consentThirdParty = document.getElementById('consent_thirdparty').checked;
+    var consentDate = new Date().toISOString();
+    var contactId = getParameterByName('cid');
+
+    // Power Automate HTTP endpoint URL (from the target environment)
+    var flowUrl = "https://prod-220.westeurope.logic.azure.com:443/workflows/e62215493ec840f6b7b2ff7c20c5e192/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=dDmmnxUQIykI7pzQRVXdLqgcEgPQRqZ43ys1b2DgyGE";
+
+    fetch(flowUrl, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            CustomerId: contactId
+        })
+    })
+    .then(response => {
+        if (response.ok) {
+            alert("Thank you! Your consent preferences have been saved.");
+            window.close();
+        } else {
+            alert("Error submitting consent.");
+        }
+    });
+}
+
+        function getParameterByName(name) {
+            var url = window.location.href;
+            name = name.replace(/[\[\]]/g, "\\$&");
+            var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+                results = regex.exec(url);
+            if (!results) return null;
+            if (!results[2]) return '';
+            return decodeURIComponent(results[2].replace(/\+/g, " "));
+        }
+    </script>
+</body>
+</html>
