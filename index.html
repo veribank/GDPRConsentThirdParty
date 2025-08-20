@@ -154,6 +154,9 @@
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
+            ConsentPersonal: consentPersonal,
+            ConsentMarketing: consentMarketing,
+            ConsentThirdParty: consentThirdParty,
             CustomerId: contactId
         })
     })
