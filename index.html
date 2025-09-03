@@ -116,16 +116,16 @@
         <div class="section-title">Consent Options</div>
         <div class="consent-options">
             <label>
-                <input type="checkbox" id="consent_personal" class="checkbox" onchange="onConsentChange()">
-                I consent to the processing of my personal data as described above. (Optional)
+                <input type="checkbox" id="consent_personal" class="checkbox">
+                I consent to the processing of my personal data as described above. <span class="note">(Optional)</span>
             </label>
             <label>
                 <input type="checkbox" id="consent_marketing" class="checkbox">
                 I consent to receive marketing, campaign, and promotional content via SMS/email. <span class="note">(Optional)</span>
             </label>
             <label>
-                <input type="checkbox" id="consent_thirdparty" class="checkbox">
-                I consent to the transfer of my personal data to servers or affiliates located outside the EEA. <span class="note">(Required)</span>
+                <input type="checkbox" id="consent_thirdparty" class="checkbox"  onchange="onConsentChange()">
+                I consent to the transfer of my personal data to servers or affiliates located outside the EEA. <b>(Required)</b>
             </label>
         </div>
         <p>By tapping <b>"Continue"</b>, you confirm that you have read and understood the above, and provide your consent accordingly.</p>
