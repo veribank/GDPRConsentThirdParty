@@ -151,9 +151,18 @@
     var consentThirdParty = document.getElementById('consent_thirdparty').checked;
     var consentDate = new Date().toISOString();
     var contactId = getParameterByName('cid');
+            var environment = getParameterByName('environment');
+            var flowUrl;
 
-    // Power Automate HTTP endpoint URL (from the target environment)
-    var flowUrl = "https://prod-220.westeurope.logic.azure.com:443/workflows/e62215493ec840f6b7b2ff7c20c5e192/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=dDmmnxUQIykI7pzQRVXdLqgcEgPQRqZ43ys1b2DgyGE";
+            if (environment == "VT04") {
+                flowUrl = "https://9c38e05afdec45729cceeb851b2303.25.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/e62215493ec840f6b7b2ff7c20c5e192/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=PN10FHG8Cu5ngyHnR2856Nz3j6OST137U2ML7Qelo4Y";
+            }
+            else if (environment == "previewdev") {
+
+            }
+            else if (environment == "preview") {
+
+            }
 
     fetch(flowUrl, {
         method: "POST",
